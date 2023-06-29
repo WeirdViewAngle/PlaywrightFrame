@@ -1,9 +1,12 @@
 ﻿using PlaywriteFramework.Elements.Pages;
+using PlaywriteFramework.Steps;
 
 namespace PlaywriteFramework.Tests
 {
     public class Test : BaseTest
     {
+        private GogolPageSteps gogolPageSteps = new();
+
         [Test]
         public async Task GoogleSearchTestAsync()
         {
@@ -21,11 +24,11 @@ namespace PlaywriteFramework.Tests
         }
 
         [Test]
-        public async Task GoogleSearchTestAsync()
+        public async Task GoogleSearchTestAsync2()
         {
             // Go to google.com
-            var page = new GogolPage();
-            page.Page.
+            var pageTo = new GogolPage(page);
+            await pageTo.WaitForPageOpenedAsync();
         }
     }
 }

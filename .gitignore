@@ -23,7 +23,6 @@ ScaffoldingReadMe.txt
 *.sln.docstates
 
 # User-specific files
-*.sln
 *.suo
 *.user
 *.userosscache

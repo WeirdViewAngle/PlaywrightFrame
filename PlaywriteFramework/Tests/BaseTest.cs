@@ -5,7 +5,6 @@ namespace PlaywriteFramework.Tests
 {
     public class BaseTest
     {
-        protected IPlaywright playwright;
         protected IBrowser browser;
         protected IBrowserContext context;
         protected IPage page;
@@ -15,7 +14,7 @@ namespace PlaywriteFramework.Tests
         {
             try
             {
-                var browser = BrowserFactory.GetBrowser();
+                browser = await BrowserFactory.GetBrowser();
             }
             catch (Exception ex)
             {
