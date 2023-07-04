@@ -1,22 +1,27 @@
-﻿using Microsoft.Playwright;
-
-namespace PlaywriteFramework.Elements.Pages
+﻿namespace PlaywriteFramework.Elements.Pages
 {
     public class BasePage
     {
-        protected readonly IPage page;
-        private readonly string pageLocator;
+        protected readonly IPage Page;
+        protected readonly string PageLocator;
 
-        public BasePage(IPage page, string pageDefiningElementLocator)
+        protected BasePage(IPage page, string pageDefiningElementLocator)
         {
-            this.page = page;
-            pageLocator = pageDefiningElementLocator;
+            Page = page;
+            PageLocator = pageDefiningElementLocator;
         }
 
-        public async Task WaitForPageOpenedAsync()
+        public static async Task<BasePage> CreateAsync(IPage page, string pageDefiningElementLocator)
         {
-            await page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
-            await page.CheckAsync(pageLocator, new PageCheckOptions() { Timeout = 10.0f });
+            var basePage = new BasePage(page, pageDefiningElementLocator);
+            await basePage.AssertThatPageOpened();
+            return basePage;
+        }
+
+        public async Task AssertThatPageOpened()
+        {
+            await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+            await Page.CheckAsync(PageLocator, new PageCheckOptions() { Timeout = 10.0f });
         }
     }
 }

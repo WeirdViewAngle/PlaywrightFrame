@@ -1,34 +1,36 @@
 ﻿using PlaywriteFramework.Elements.Pages;
 using PlaywriteFramework.Steps;
+using PlaywriteFramework.Utils.Enums;
 
 namespace PlaywriteFramework.Tests
 {
     public class Test : BaseTest
     {
-        private GogolPageSteps gogolPageSteps = new();
+        private GogolPageSteps gogolPageSteps; 
+        private GogolSearchResultsPageSteps gogolSearchResultsSteps;
+
+        public Test(BrowserEnum browserType) : base(browserType)
+        {
+        }
+
+        [SetUp]
+        public override async Task SetUp()
+        {
+            await base.SetUp();
+            gogolPageSteps = await GogolPageSteps.CreateAsync(Page);
+            gogolSearchResultsSteps = await GogolSearchResultsPageSteps.CreateAsync(Page);
+        }
 
         [Test]
         public async Task GoogleSearchTestAsync()
         {
-
-            // Type "Microsoft Playwright for .NET" into the search box and press Enter
-            await page.TypeAsync("input[name=q]", "Microsoft Playwright for .NET");
-            await page.PressAsync("input[name=q]", "Enter");
-
-            // Wait for the results to load
-            await page.WaitForNavigationAsync();
+            await gogolPageSteps.TypeTextAndSearch("dgf");
 
             // Assert that at least one search result appears
-            var firstResult = await page.QuerySelectorAsync(".g");
+            var firstResult = await Page.QuerySelectorAsync(".g");
             Assert.That(firstResult, Is.Not.Null);
         }
 
-        [Test]
-        public async Task GoogleSearchTestAsync2()
-        {
-            // Go to google.com
-            var pageTo = new GogolPage(page);
-            await pageTo.WaitForPageOpenedAsync();
-        }
+        
     }
 }

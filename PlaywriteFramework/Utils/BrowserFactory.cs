@@ -12,37 +12,32 @@ namespace PlaywriteFramework.Utils
             BrowserEnum browserType = BrowserEnum.Chromium)
         {
             if (_browser == null)
-            {
                 await CreateBrowserAsync(browserType);
-            }
 
-            return _browser;
+            return _browser ?? throw new Exception("Browser instance was not created");
         }
 
         private async static Task CreateBrowserAsync(BrowserEnum browserType)
         {
             playwright = await Playwright.CreateAsync();
-            IBrowser browser;
 
             switch (browserType)
             {
                 case BrowserEnum.Chromium:
-                    browser = await playwright.Chromium.LaunchAsync(
+                    _browser = await playwright.Chromium.LaunchAsync(
                         new BrowserTypeLaunchOptions { Headless = false });
                     break;
                 case BrowserEnum.Firefox:
-                    browser = await playwright.Firefox.LaunchAsync(
+                    _browser = await playwright.Firefox.LaunchAsync(
                         new BrowserTypeLaunchOptions { Headless = false });
                     break;
                 case BrowserEnum.Webkit:
-                    browser = await playwright.Webkit.LaunchAsync(
+                    _browser = await playwright.Webkit.LaunchAsync(
                         new BrowserTypeLaunchOptions { Headless = false });
                     break;
                 default:
                     throw new ArgumentException("Invalid browser type");
             }
-
-            _browser = browser;
         }
 
         public async static Task CloseAsync()

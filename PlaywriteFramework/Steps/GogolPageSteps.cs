@@ -1,21 +1,31 @@
-﻿using Microsoft.Playwright;
-using PlaywriteFramework.Elements.Pages;
+﻿using PlaywriteFramework.Elements.Pages;
 
 namespace PlaywriteFramework.Steps
 {
-    public  class GogolPageSteps
+    public class GogolPageSteps : BaseSteps
     {
-        private readonly GogolPage gogolPage;
+        private GogolPage gogolPage;
 
-        public GogolPageSteps(IPage page)
+        private GogolPageSteps(IPage page, GogolPage gogolPage) : base(page)
         {
-            gogolPage = new GogolPage(page);
+            this.gogolPage = gogolPage;
         }
 
-        public async Task TypeTextAndPressLuckButtonAsync(string text)
+        public static async Task<GogolPageSteps> CreateAsync(IPage page)
+        {
+            var gogolPage = await GogolPage.CreateAsync(page);
+            return new GogolPageSteps(page, gogolPage);
+        }
+
+        public async Task PressLuckButtonAsync()
+        {
+            await gogolPage.PressLuckButton();
+        }
+
+        public async Task TypeTextAndSearch(string text)
         {
             await gogolPage.TypeTextToSearchField(text);
-            await gogolPage.PressLuckButton();
+            await gogolPage.Search();
         }
     }
 }
