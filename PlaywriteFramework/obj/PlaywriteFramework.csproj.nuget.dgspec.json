@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\WindowsKek\\Source\\Repos\\PlaywrightFrame\\PlaywriteFramework\\PlaywriteFramework.csproj": {}
+    "C:\\Users\\WindowsKek\\source\\repos\\PlaywrightFrame\\PlaywriteFramework\\PlaywriteFramework.csproj": {}
   },
   "projects": {
-    "C:\\Users\\WindowsKek\\Source\\Repos\\PlaywrightFrame\\PlaywriteFramework\\PlaywriteFramework.csproj": {
+    "C:\\Users\\WindowsKek\\source\\repos\\PlaywrightFrame\\PlaywriteFramework\\PlaywriteFramework.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\WindowsKek\\Source\\Repos\\PlaywrightFrame\\PlaywriteFramework\\PlaywriteFramework.csproj",
+        "projectUniqueName": "C:\\Users\\WindowsKek\\source\\repos\\PlaywrightFrame\\PlaywriteFramework\\PlaywriteFramework.csproj",
         "projectName": "PlaywriteFramework",
-        "projectPath": "C:\\Users\\WindowsKek\\Source\\Repos\\PlaywrightFrame\\PlaywriteFramework\\PlaywriteFramework.csproj",
+        "projectPath": "C:\\Users\\WindowsKek\\source\\repos\\PlaywrightFrame\\PlaywriteFramework\\PlaywriteFramework.csproj",
         "packagesPath": "C:\\Users\\WindowsKek\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\WindowsKek\\Source\\Repos\\PlaywrightFrame\\PlaywriteFramework\\obj\\",
+        "outputPath": "C:\\Users\\WindowsKek\\source\\repos\\PlaywrightFrame\\PlaywriteFramework\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -44,9 +44,21 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Bogus": {
+              "target": "Package",
+              "version": "[34.0.2, )"
+            },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
               "version": "[17.6.3, )"
+            },
+            "Microsoft.Playwright": {
+              "target": "Package",
+              "version": "[1.35.0, )"
+            },
+            "Microsoft.Playwright.NUnit": {
+              "target": "Package",
+              "version": "[1.35.0, )"
             },
             "NUnit": {
               "target": "Package",
@@ -59,6 +71,10 @@
             "NUnit3TestAdapter": {
               "target": "Package",
               "version": "[4.5.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             },
             "coverlet.collector": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -83,7 +99,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
         }
       }
     }
