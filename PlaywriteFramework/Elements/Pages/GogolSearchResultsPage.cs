@@ -1,17 +1,23 @@
-﻿namespace PlaywriteFramework.Elements.Pages
+﻿using PlaywriteFramework.Elements.Pages.Base;
+
+namespace PlaywriteFramework.Elements.Pages
 {
     public class GogolSearchResultsPage : BasePage
     {
-        private static string pageLocator = "//*[contains(@id, 'search')]//ancestor::*[contains(@id, 'rcnt')]";
-
-        private GogolSearchResultsPage(IPage page) : base(page, pageLocator)
+        private GogolSearchResultsPage(IPage page) : base(page, "//*[contains(@id, 'search')]//ancestor::*[contains(@id, 'rcnt')]")
         {
         }
 
         public static async Task<GogolSearchResultsPage> CreateAsync(IPage page)
         {
-            await CreateAsync(page, pageLocator);
-            return new GogolSearchResultsPage(page);
+            var mainPage = new GogolSearchResultsPage(page);
+            await mainPage.InitializeAsync();
+            return mainPage;
+        }
+
+        private async Task InitializeAsync()
+        {
+            // Perform asynchronous initialization here
         }
     }
 }

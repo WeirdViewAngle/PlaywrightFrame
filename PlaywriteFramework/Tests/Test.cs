@@ -1,36 +1,27 @@
-﻿using PlaywriteFramework.Elements.Pages;
-using PlaywriteFramework.Steps;
+﻿using PlaywriteFramework.Steps;
 using PlaywriteFramework.Utils.Enums;
 
 namespace PlaywriteFramework.Tests
 {
-    public class Test : BaseTest
+    public class Test : BaseTestUI
     {
-        private GogolPageSteps gogolPageSteps; 
-        private GogolSearchResultsPageSteps gogolSearchResultsSteps;
-
         public Test(BrowserEnum browserType) : base(browserType)
         {
-        }
-
-        [SetUp]
-        public override async Task SetUp()
-        {
-            await base.SetUp();
-            gogolPageSteps = await GogolPageSteps.CreateAsync(Page);
-            gogolSearchResultsSteps = await GogolSearchResultsPageSteps.CreateAsync(Page);
         }
 
         [Test]
         public async Task GoogleSearchTestAsync()
         {
-            await gogolPageSteps.TypeTextAndSearch("dgf");
+            var gololPageSteps = await GetGogolPageSteps();
+            await gololPageSteps.TypeTextAndSearch("dgf");
 
             // Assert that at least one search result appears
             var firstResult = await Page.QuerySelectorAsync(".g");
             Assert.That(firstResult, Is.Not.Null);
         }
 
-        
+
+        private async Task<GogolPageSteps> GetGogolPageSteps() => await GogolPageSteps.CreateAsync(Page);
+        private async Task<GogolSearchResultsPageSteps> GetGogolSearchResultsPageSteps() => await GogolSearchResultsPageSteps.CreateAsync(Page);
     }
 }

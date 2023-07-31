@@ -5,46 +5,25 @@ namespace PlaywriteFramework.Utils
 {
     public static class BrowserFactory
     {
-        private static IPlaywright playwright;
-        private static IBrowser? _browser = null;
+        private static readonly object _lock = new();
+        private static IPlaywright _playwright;
 
-        public async static Task<IBrowser> GetBrowser(
-            BrowserEnum browserType = BrowserEnum.Chromium)
+        public async static Task<IBrowser> CreateBrowserAsync(BrowserEnum browser)
         {
-            if (_browser == null)
-                await CreateBrowserAsync(browserType);
-
-            return _browser ?? throw new Exception("Browser instance was not created");
-        }
-
-        private async static Task CreateBrowserAsync(BrowserEnum browserType)
-        {
-            playwright = await Playwright.CreateAsync();
-
-            switch (browserType)
+            lock (_lock)
             {
-                case BrowserEnum.Chromium:
-                    _browser = await playwright.Chromium.LaunchAsync(
-                        new BrowserTypeLaunchOptions { Headless = false });
-                    break;
-                case BrowserEnum.Firefox:
-                    _browser = await playwright.Firefox.LaunchAsync(
-                        new BrowserTypeLaunchOptions { Headless = false });
-                    break;
-                case BrowserEnum.Webkit:
-                    _browser = await playwright.Webkit.LaunchAsync(
-                        new BrowserTypeLaunchOptions { Headless = false });
-                    break;
-                default:
-                    throw new ArgumentException("Invalid browser type");
+                _playwright ??= Playwright.CreateAsync().GetAwaiter().GetResult();
             }
-        }
 
-        public async static Task CloseAsync()
-        {
-            await _browser.CloseAsync();
-            playwright.Dispose();
-        }
+            var browserOptions = new BrowserTypeLaunchOptions() { Headless = false };
 
+            return browser switch
+            {
+                BrowserEnum.Chromium => await _playwright.Chromium.LaunchAsync(browserOptions),
+                BrowserEnum.Firefox => await _playwright.Firefox.LaunchAsync(browserOptions),
+                BrowserEnum.Webkit => await _playwright.Webkit.LaunchAsync(browserOptions),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
+        }
     }
 }

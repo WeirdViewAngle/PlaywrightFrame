@@ -1,49 +1,43 @@
-using Microsoft.Playwright;
 using PlaywriteFramework.Utils;
 using PlaywriteFramework.Utils.Enums;
 
 namespace PlaywriteFramework.Tests
 {
     [TestFixtureSource(typeof(EnumProvider<BrowserEnum>), nameof(EnumProvider<BrowserEnum>.GetEnum))]
-    public class BaseTest
+    public class BaseTestUI
     {
-        protected IBrowserContext context;
-        public static IBrowser Browser { get; set; }
-        public static IPage Page { get; set; }
+        protected IBrowser Browser;
+        protected IPage Page;
 
-        private readonly BrowserEnum browserEnum;
-
-        public BaseTest(BrowserEnum browserType)
+        public BaseTestUI(BrowserEnum browser)
         {
-            browserEnum = browserType;
+            BrowserType = browser;
         }
 
+        public BrowserEnum BrowserType { get; private set; }
 
         [SetUp]
-        public async virtual Task SetUp()
+        public async Task Setup()
         {
             try
             {
-                Browser = await BrowserFactory.GetBrowser(browserEnum);
+                // Create a new Browser instance for each test
+                Browser = await BrowserFactory.CreateBrowserAsync(BrowserType);
+                // Create a new context from the Browser
+                var context = await Browser.NewContextAsync();
+                // Create a new Page from the context
+                Page = await context.NewPageAsync();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception during setup: {ex}");
-                throw;
+                throw new Exception($"Exception during setup: {ex}");
             }
-
-            context = await Browser.NewContextAsync();
-
-            Page = await context.NewPageAsync();
-
-            // Go to google.com
-            await Page.GotoAsync("https://www.google.com");
         }
 
         [TearDown]
         public async Task TearDown()
         {
-            await context.CloseAsync();
+            await Browser.CloseAsync();
         }
     }
 }

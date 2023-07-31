@@ -1,4 +1,6 @@
-﻿namespace PlaywriteFramework.Elements.Pages
+﻿using PlaywriteFramework.Elements.Pages.Base;
+
+namespace PlaywriteFramework.Elements.Pages
 {
     public class GogolPage : BasePage
     {
@@ -12,23 +14,29 @@
 
         public static async Task<GogolPage> CreateAsync(IPage page)
         {
-            await CreateAsync(page, pageLocator);
-            return new GogolPage(page);
+            var mainPage = new GogolPage(page);
+            await mainPage.InitializeAsync();
+            return mainPage;
         }
 
         public async Task TypeTextToSearchField(string text)
         {
-            await Page.TypeAsync(searchLocator, text);
+            await _page.TypeAsync(searchLocator, text);
         }
 
         public async Task Search()
         {
-            await Page.PressAsync(searchLocator, "Enter");
+            await _page.PressAsync(searchLocator, "Enter");
         }
 
         public async Task PressLuckButton()
         {
-            await Page.ClickAsync(luckButtonLocator);
+            await _page.ClickAsync(luckButtonLocator);
+        }
+
+        private async Task InitializeAsync()
+        {
+            // Perform asynchronous initialization here
         }
     }
 }
